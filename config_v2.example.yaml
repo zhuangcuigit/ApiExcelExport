@@ -1,0 +1,48 @@
+# 版本2 配置示例：多账号登录后合并导出
+
+login:
+  url: "http://your-api.com/rest/auth/login"
+  method: "POST"
+  headers:
+    Content-Type: "application/json"
+  body:
+    username: "{{username}}"
+    password: "{{password}}"
+  # 登录成功后设置的请求头：key 为头名，value 为固定值或响应 body 路径（如 data.accessToken）
+  auth_headers:
+    Content-Type: "application/json"
+    Cookie: "data.cookie"
+    x-access-token: "data.accessToken"
+  auth_from: "cookie"
+
+accounts:
+  - username: "user1"
+    password: "pwd1"
+    label: "账号1"
+  - username: "user2"
+    password: "pwd2"
+
+api:
+  url: "http://your-api.com/rest/users/list"
+  method: "POST"
+  headers:
+    Content-Type: "application/json"
+  params:
+    current: 1
+    pageSize: 100
+
+merge_add_account_column: true
+merge_account_column_header: "账号"
+
+data_path: "data.data"
+columns:
+  id: "ID"
+  name: "名称"
+  createTime:
+    header: "创建时间"
+    format: "%Y-%m-%d %H:%M:%S"
+
+filters: []
+output:
+  dir: "./output"
+  filename: "export_merged"

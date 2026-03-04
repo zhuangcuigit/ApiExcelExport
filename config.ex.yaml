@@ -1,0 +1,53 @@
+# API 数据导出 Excel - 配置
+# 填写接口地址、请求参数和要导出的列即可
+
+# 接口地址（必填）
+api:
+  url: "https://api.example.com/data/list"
+  method: "GET"   # GET 或 POST
+  # Cookie 鉴权：填写浏览器复制出的整段 Cookie，请求时会自动带上
+  # 也可不填此处，改用环境变量 COOKIE（更安全，避免把 Cookie 写进配置文件）
+  # cookie: "sessionid=xxx; token=yyy"
+  # 请求头（可选，如 Content-Type 等；Cookie 优先用上面的 cookie 或环境变量 COOKIE）
+  headers:
+    # Content-Type: "application/json"
+  # GET 时作为 query 参数，POST 时作为 JSON body（二选一或都填）
+  params:
+    page: 1
+    pageSize: 100
+  # body:  # POST 时也可用 body 代替 params
+  #   keyword: ""
+  #   status: 1
+
+# 接口返回的 JSON 中，数据列表所在的路径（用点号分隔，如 data.list）
+# 若接口直接返回数组，填 null 或 ""
+data_path: "data.list"
+
+# 要导出到 Excel 的列配置
+# key: 接口返回的字段名（支持对象路径如 member.salesmanName）
+# value: 表头字符串，或对象 { header: "表头", format: "时间格式" }
+# 时间格式为 strftime，如 "%Y-%m-%d %H:%M:%S"、"%Y-%m-%d"
+columns:
+  id: "ID"
+  name: "名称"
+  status: "状态"
+  createTime:
+    header: "创建时间"
+    format: "%Y-%m-%d %H:%M:%S"
+  # 从嵌套对象取值
+  # member.salesmanName: "业务员"
+  # member.dealerName: "所属合伙人"
+
+# 过滤规则（可选）：只保留满足条件的行
+# - column: 字段名（与 columns 中一致，支持嵌套如 user.name）
+#   rule: not_empty  表示该列不能为空（null、空字符串、仅空白均视为空）
+filters:
+  - column: name
+    rule: not_empty
+  # - column: id
+  #   rule: not_empty
+
+# 导出文件设置
+output:
+  dir: "./output"
+  filename: "export_data"   # 不含扩展名，会自动加 .xlsx 和日期时间
