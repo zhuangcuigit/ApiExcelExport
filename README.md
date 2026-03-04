@@ -3,6 +3,7 @@
 根据配置的接口地址、请求参数和列映射，请求接口获取数据并导出为 Excel 表格。
 
 ## 使用步骤
+## 版本1：单账号cookie登录导出
 
 1. **复制配置**  
    将 `config.example.yaml` 复制为 `config.yaml`（或直接修改 `config.yaml`）。
@@ -19,7 +20,8 @@
 
 3. **安装依赖并运行**  
    ```bash
-   cd api_excel_export
+   安装python
+   当前目录下：
    py -m venv venv
    venv\Scripts\activate
    pip install -r requirements.txt
@@ -56,6 +58,11 @@
 
 5. **运行**  
    ```bash
+   安装python
+   当前目录下：
+   py -m venv venv
+   venv\Scripts\activate
+   pip install -r requirements.txt
    python run_v2.py
    ```  
    也可指定配置：`set CONFIG=my_v2.yaml && python run_v2.py`
@@ -144,3 +151,4 @@ columns:
 - 接口需返回 JSON。鉴权推荐用 **Cookie**：在 `config.yaml` 的 `api.cookie` 中填写，或设置环境变量 `COOKIE`（避免把 Cookie 写进配置文件）。也可在 `api.headers` 里配置 `Authorization` 等。  
 - 列顺序以 `columns` 中键的顺序为准。  
 - 若某条数据缺少某字段，该单元格会为空。
+
